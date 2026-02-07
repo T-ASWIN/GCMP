@@ -1,0 +1,43 @@
+  div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12"
+    
+    / Header: Icon, Label, and Date display
+    div class="flex items-center gap-6 mb-8 "
+      div class="flex items-center gap-2"
+        i class="far fa-clock text-gray-600 text-sm"
+        span class="text-sm font-bold text-gray-700" Time Slots
+
+      div class="flex items-center gap-4"
+        div class="flex items-center gap-2"
+          span class="text-sm font-bold text-gray-700" 07 Feb
+        
+        div class="flex items-center gap-2"
+            input type="date" class="hidden" data-appointment-slot-calendar-target="picker"
+
+    / Slot Grid
+    div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+      - @slots.each do |slot|
+        - if slot[:s] == "available"
+          / AVAILABLE SLOT (Green Accent)
+          div class="relative p-6 rounded-2xl bg-green-100 border-2 border-green-100 shadow-sm"
+            div class="flex justify-between items-start mb-1"
+              span class="font-bold text-gray-900 text-lg tracking-tight" = slot[:t]
+              i class="fas fa-unlock-alt text-emerald-400 text-sm"
+            
+            p class="text-[11px] text-gray-400 mb-5 font-large" Dr. Sarah Johnson
+            
+            div class="flex items-center gap-2"
+              span class="w-2 h-2 rounded-full bg-emerald-500"
+              span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest" AVAILABLE
+
+        - else
+          / BLOCKED SLOT (Grayed Out)
+          div class="relative p-6 rounded-2xl bg-gray-50 border border-gray-200 border-2"
+            div class="flex justify-between items-start mb-1"
+              span class="font-bold text-gray-700 text-lg tracking-tight" = slot[:t]
+              i class="fas fa-lock text-gray-500 text-sm"
+            
+            p class="text-[11px] text-gray-300 mb-5 font-large" Dr. Sarah Johnson
+            
+            div class="flex items-center gap-2"
+              span class="w-2 h-2 rounded-full bg-gray-400"
+              span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" BLOCKED

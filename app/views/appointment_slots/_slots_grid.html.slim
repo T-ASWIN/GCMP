@@ -1,0 +1,26 @@
+div id="slotsContainer"
+  div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+    - slots.each do |slot|
+      - is_avail = (slot[:s] == "available")
+      
+      / Reduced padding to p-3 to make the card smaller
+      div ( class="#{is_avail ? 'bg-emerald-50 border-emerald-100 border-t-emerald-500 border-t-[3px]' : 'bg-gray-50 border-gray-200 border-2'} relative p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.01] shadow-sm"
+            data-action="click->appointment-slot-calendar#toggle"
+            data-status="#{slot[:s]}"
+            data-time="#{slot[:t]}" )
+        
+        div class="px-1"
+          div class="flex justify-between items-start mb-1"
+            / Reduced to text-xs
+            span class="time-text text-xs font-bold #{is_avail ? 'text-gray-800' : 'text-gray-400'}" 
+              = slot[:t]
+            i class="status-icon fas fa-#{is_avail ? 'unlock-alt text-emerald-400' : 'lock text-gray-300'} text-[10px]"
+          
+          / Extra small font for doctor
+          p class="text-[9px] #{is_avail ? 'text-gray-400' : 'text-gray-300'} mb-2 leading-tight" 
+            | Dr. Sarah Johnson
+          
+          div class="flex items-center gap-1.5"
+            span class="status-dot w-1.5 h-1.5 rounded-full #{is_avail ? 'bg-emerald-500' : 'bg-gray-400'}"
+            span class="status-text text-[8px] font-extrabold #{is_avail ? 'text-emerald-600' : 'text-gray-400'} uppercase tracking-tighter" 
+              = slot[:s]
