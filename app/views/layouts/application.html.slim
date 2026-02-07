@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title GCMP
+    meta name="viewport" content="width=device-width,initial-scale=1"
+    link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+    = yield :head
+
+  body.h-screen.flex.flex-col.bg-gray-100.overflow-hidden
+    = render "shared/header"
+
+    / Container for Sidebar + Content
+    .flex.flex-1.overflow-hidden
+      = render "shared/sidebar"
+
+      / Scrollable area for Main and Footer
+      .flex-1.flex.flex-col.overflow-y-auto.min-w-0
+        main.flex-1.p-6
+          = yield
+        = render "shared/footer"
