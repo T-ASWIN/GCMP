@@ -1,0 +1,32 @@
+.p-8.bg-gray-50.min-h-screen
+  .flex.justify-between.items-center.mb-6
+    h1.text-2xl.font-bold.text-gray-800 User Management
+    = link_to 'Create New User', new_user_path, class: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition'
+
+  .bg-white.shadow-md.rounded-xl.overflow-hidden
+    table.min-w-full.divide-y.divide-gray-200
+      thead.bg-gray-50
+        tr
+          th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase Unique ID
+          th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase Name
+          th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase Email
+          th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase Role
+          th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase Status
+          th.px-6.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase Actions
+      tbody.divide-y.divide-gray-200
+        - @users.each do |user|
+          tr.hover:bg-gray-50
+            td.px-6.py-4.whitespace-nowrap.text-sm.font-mono.text-gray-600 = user.unique_id
+            td.px-6.py-4.whitespace-nowrap.text-sm.font-medium.text-gray-900 = user.name
+            td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500 = user.email
+            td.px-6.py-4.whitespace-nowrap
+              span class="px-2.5 py-0.5 rounded-full text-xs font-medium #{user.admin? ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}"
+                = user.role.capitalize
+            td.px-6.py-4.whitespace-nowrap
+              span class="px-2.5 py-0.5 rounded-full text-xs font-medium #{user.active? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}"
+                = user.status.capitalize
+            td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium
+              .flex.justify-end.gap-2
+                = link_to 'View', user_path(user), class: 'text-indigo-600 hover:text-indigo-900'
+                = link_to 'Edit', edit_user_path(user), class: 'text-gray-600 hover:text-gray-900'
+                = link_to 'Change Status', toggle_user_path(user), class: 'text-orange-600 hover:text-orange-800'

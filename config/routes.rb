@@ -1,15 +1,27 @@
 Rails.application.routes.draw do
-resources :appointment_slots, only: [:index]
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :appointment_slots, only: [:index]
+  
+  # Existing routes
+  get '/users',          to: 'users#index', as: 'users'
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get  '/users/new', to: 'users#new',    as: 'new_user' # The Page
+  post '/users',     to: 'users#create'                # The Action
+
+  # Update Flow
+  get   '/users/:id/edit', to: 'users#edit',   as: 'edit_user' # The Page
+  patch '/users/:id',      to: 'users#update', as: 'update_user'
+
+  get '/users/:id', to:'users#show', as:'user'
+
+
+  resources :users do
+    member do
+      get :toggle           # The page with the checkboxes
+      patch :update_status  # The action that saves the status
+    end
+  end
+  
+  # ... other routes ...
+
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

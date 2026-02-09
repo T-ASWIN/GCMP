@@ -1,0 +1,39 @@
+.max-w-2xl.mx-auto.p-8.bg-white.shadow.rounded-lg
+  h1.text-2xl.font-bold.mb-6 Create User 
+
+  / The 'action' must match your POST route
+  form action="/users" method="post" class="space-y-4"
+    / 1. SECURITY: Rails requires this token to prevent CSRF attacks
+    input type="hidden" name="authenticity_token" value="#{form_authenticity_token}"
+
+    div
+      label.block.text-sm.font-medium Name
+      / 2. NAMING: name="user[name]" matches params.require(:user).permit(:name)
+      input type="text" name="user[name]" class="w-full border p-2 rounded" placeholder="Enter full name"
+
+    div
+      label.block.text-sm.font-medium Email
+      input type="email" name="user[email]" class="w-full border p-2 rounded" placeholder="email@example.com"
+    
+    div
+      label.block.text-sm.font-medium Unique ID
+      input type="text" name="user[unique_id]" class="w-full border p-2 rounded" placeholder="USR-001"
+
+    div
+      label.block.text-sm.font-medium Password
+      input type="password" name="user[password]" class="w-full border p-2 rounded"
+
+    div
+      label.block.text-sm.font-medium Confirm Password
+      input type="password" name="user[password_confirmation]" class="w-full border p-2 rounded"
+
+    / The submit button sends the request to UsersController#create
+    button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      | Save User
+
+      - if @user.errors.any?
+  .bg-red-50.border.border-red-400.text-red-700.px-4.py-3.rounded.mb-4
+    h2.font-bold = "#{pluralize(@user.errors.count, "error")} prevented saving:"
+    ul.list-disc.ml-5
+      - @user.errors.full_messages.each do |msg|
+        li = msg
