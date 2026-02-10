@@ -1,34 +1,42 @@
-.max-w-2xl.mx-auto.p-8.bg-white.shadow.rounded-lg
-  .flex.justify-between.items-center.mb-6
-    h1.text-2xl.font-bold Edit User: #{@user.name}
-    = link_to 'Cancel', users_path, class: 'text-gray-500 hover:text-gray-700'
+.max-w-md.mx-auto.mt-12.p-10.bg-white.border.border-slate-200.rounded-2xl.shadow-sm style="background-color: #c9e5eb; border-color: #65696e;"
+  /-- Header
+  .flex.justify-between.items-end.mb-10
+    .space-y-1
+      span.text-xl.font-bold.uppercase.text-state-600 Edit Profile
+      h1.text-3xl.font-extrabold.tracking-tight.text-slate-900 = @user.name
+    = link_to 'Cancel', users_path, class: 'text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors'
 
-  / Error Messages block
+  /-- Error Messages
   - if @user.errors.any?
-    .bg-red-50.border-l-4.border-red-500.p-4.mb-6
-      .text-red-700.font-bold = "#{pluralize(@user.errors.count, 'error')} stopped this update:"
-      ul.list-disc.list-inside.text-red-600
+    .bg-rose-50.border.border-rose-200.rounded-xl.p-4.mb-8
+      .flex.items-center.gap-2.text-rose-800.font-bold.mb-1
+        svg.w-5.h-5 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+          path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"
+        span = "#{pluralize(@user.errors.count, 'error')} restricted this update"
+      ul.list-disc.list-inside.text-sm.text-rose-600.ml-7
         - @user.errors.full_messages.each do |msg|
           li = msg
 
-  / The Rails Form Helper
+  /-- Form
   = form_with(model: @user, class: "space-y-6") do |f|
-    div
-      = f.label :name, class: "block text-sm font-medium text-gray-700"
-      = f.text_field :name, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+    .space-y-2
+      = f.label :name, class: "block text-sm font-semibold text-slate-700"
+      = f.text_field :name, class: "block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all placeholder:text-slate-400 shadow-sm"
 
-    div
-      = f.label :email, class: "block text-sm font-medium text-gray-700"
-      = f.email_field :email, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+    .space-y-2
+      = f.label :email, class: "block text-sm font-semibold text-slate-700"
+      = f.email_field :email, class: "block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all placeholder:text-slate-400 shadow-sm"
 
-    .grid.grid-cols-2.gap-4
-      div
-        = f.label :role, class: "block text-sm font-medium text-gray-700"
-        = f.select :role, User.roles.keys.map { |r| [r.titleize, r] }, {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+    .grid.grid-cols-1.sm:grid-cols-2.gap-6
+      .space-y-2
+        = f.label :role, class: "block text-sm font-semibold text-slate-700"
+        .relative
+          = f.select :role, User.roles.keys.map { |r| [r.titleize, r] }, {}, class: "appearance-none block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all bg-white shadow-sm"
       
-      div
-        = f.label :status, class: "block text-sm font-medium text-gray-700"
-        = f.select :status, User.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+      .space-y-2
+        = f.label :status, class: "block text-sm font-semibold text-slate-700"
+        .relative
+          = f.select :status, User.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "appearance-none block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all bg-white shadow-sm"
 
-    .pt-4
-      = f.submit "Update User Information", class: "w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition font-semibold"
+    .pt-6
+      = f.submit "Save Changes", class: "w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-4 rounded-xl font-bold shadow-lg shadow-slate-200 transition-all active:scale-[0.98] cursor-pointer"

@@ -1,53 +1,61 @@
 class UsersController < ApplicationController
-
+  before_action :authenticate_user!
+  before_action :set_user, only:[:edit, :update, :update_status]
     def index
-    @users = User.all
-  end
+     @users = User.userData
+    end
 
   def new
     @user = User.new
   end
 
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to users_path, notice: "User successfully created!"
-    else
-      render :new, status: :unprocessable_entity
-    end
+  def create  
+  @user = User.new(user_params) 
+  
+  result = Users::UserCreate.run(
+    user: @user, 
+    user_attributes: user_params.to_h
+  )
+  
+  if result.valid?
+    redirect_to users_path, notice: "User successfully created!"
+  else
+    render :new, status: :unprocessable_entity
   end
+end
+
 
   def edit
-    @user= User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
-        redirect_to users_path, notice: "User successfully updated!"
-    else
-        render :edit, status: :unprocessable_entity
+   result = Users::UserUpdate.run(
+    user: @user,
+    user_attributes: user_params.to_h
+  )
+
+  if result.valid?
+    redirect_to users_path, notice: "User successfully updated!"
+  else
+    @user =  result.result
+    render :edit, status: :unprocessable_entity
   end
-end
+end 
 
-def show
-  @user=User.find(params[:id])
-end
 
-def toggle
-  @user = User.find(params[:id])
-end
 
 def update_status
-  @user = User.find(params[:id])
   
-  # We initialize and call our simple interactor
-  service = UserStatusToggler.new(@user, params[:user][:status])
+ result= Users::StatusUpdate.run(
+    user: @user, 
+    status: params[:user][:status]
+  )
 
-  if service.call
-    redirect_to users_path, notice: "Status updated successfully."
+  if result.valid?
+    redirect_to users_path, notice: "Status updated."
   else
-    render :toggle, status: :unprocessable_entity
+    @errors = result.errors.full_messages
+    render :is_active, status: :unprocessable_entity
   end
 end
 
@@ -62,7 +70,12 @@ end
 
   private
 
+  def set_user
+    @user = User.find_by(id: params[:id])
+    redirect_to users_path, alert: "User not found" if @user.nil?
+  end
   def user_params
     params.require(:user).permit(:name, :email, :unique_id, :password, :password_confirmation, :role, :status)
   end
+
 end
