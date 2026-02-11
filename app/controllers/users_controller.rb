@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   def create  
   authorize User
-  result = Users::UserCreate.run(
+  result = Users::Create.run(
     user_attributes: user_params.to_h
   )
   
@@ -27,12 +27,10 @@ end
 
 
   def edit
-    authorize User
   end
 
   def update
-    authorize User
-   result = Users::UserUpdate.run(
+   result = Users::Update.run(
     user: @user,
     user_attributes: user_params.to_h
   )
@@ -49,8 +47,7 @@ end
 
 
 def update_status
-  authorize User
- result= Users::StatusUpdate.run(
+ result= Users::Status.run(
     user: @user, 
     status: params[:user][:status]
   )
@@ -63,21 +60,17 @@ def update_status
   end
 end
 
-# def update_status
-#   @user=User.find(params[:id])
-#  if@user.update(status: params[:user][:status])
-#   redirect_to users_path, notice: "User status updated to #{@user.status}."
-#  else
-#   render :toggle, status: :unprocessable_entity
-#  end
-# end
 
   private
 
   def set_user
     @user = User.find_by(id: params[:id])
-    redirect_to users_path, alert: "User not found" if @user.nil?
-  end
+    if @user.nil?
+      redirect_to users_path, alert: "User not found"
+    else
+      authorize @user
+    end  end
+
   def user_params
     params.require(:user).permit(:name, :email, :unique_id, :password, :password_confirmation, :role, :status)
   end

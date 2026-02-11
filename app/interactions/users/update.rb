@@ -1,5 +1,4 @@
-module Users
-  class UserUpdate < ActiveInteraction::Base
+class Users::Update < ActiveInteraction::Base
     object :user
     hash :user_attributes, strip: false
 
@@ -7,11 +6,9 @@ module Users
       user.assign_attributes(user_attributes)
 
       if user.save
-        user
       else
         errors.merge!(user.errors)
-        user
       end
+      user
     end
   end
-end

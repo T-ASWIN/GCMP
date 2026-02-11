@@ -1,5 +1,4 @@
 class UserPolicy < ApplicationPolicy
-  # Controls access to the User Index and Create/Update actions
   def index?
     user.admin?
   end

@@ -1,14 +1,13 @@
-class Users::UserCreate < ActiveInteraction::Base
+class Users::Create < ActiveInteraction::Base
   hash :user_attributes, strip: false
 
   def execute
     user = User.new(user_attributes)
 
     if user.save
-      user
     else
       errors.merge!(user.errors)
-      user
     end
+    user
   end
 end
