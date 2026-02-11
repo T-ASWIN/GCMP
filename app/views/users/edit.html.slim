@@ -6,16 +6,6 @@
       h1.text-3xl.font-extrabold.tracking-tight.text-slate-900 = @user.name
     = link_to 'Cancel', users_path, class: 'text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors'
 
-  /-- Error Messages
-  - if @user.errors.any?
-    .bg-rose-50.border.border-rose-200.rounded-xl.p-4.mb-8
-      .flex.items-center.gap-2.text-rose-800.font-bold.mb-1
-        svg.w-5.h-5 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-          path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"
-        span = "#{pluralize(@user.errors.count, 'error')} restricted this update"
-      ul.list-disc.list-inside.text-sm.text-rose-600.ml-7
-        - @user.errors.full_messages.each do |msg|
-          li = msg
 
   /-- Form
   = form_with(model: @user, class: "space-y-6") do |f|

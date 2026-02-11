@@ -17,16 +17,20 @@ html
 
     / 2. Fixed Notification Area (Top Right)
     .fixed.top-4.right-4.z-50.w-80.space-y-4
-      / Main Flash Messages (Success/Error)
       - flash.each do |type, message|
-        - bg_color = (type == 'notice' || type == 'success') ? 'bg-green-500' : 'bg-red-500'
-        div class="#{bg_color} text-white p-4 rounded-lg shadow-xl border-l-4 border-black/20 animate-fade-in-right"
-          .flex.justify-between.items-start
-            p.text-sm.font-medium = message
-            button.ml-4.text-white.hover:text-gray-200.text-xl.leading-none onclick="this.closest('div').remove()"
-              | ×
-      
-      / Yield for specific form validation errors
+        - if message.present?
+          .relative.p-4.rounded-lg.shadow-md.transition-all(
+            class="#{type == 'notice' ? 'bg-green-500' : 'bg-red-500'} text-white"
+            id="flash-#{type}"
+          )
+            .flex.justify-between.items-start
+              p.pr-4 = message
+              
+              /-- This button removes the entire container (the .relative div)
+              button.text-white.font-bold.leading-none.hover:opacity-75(onclick="this.closest('.relative').remove()")
+                | &times;
+
+      / Yield for specific form validation errors if used
       = yield :notifications
 
     / 3. Main Layout Container

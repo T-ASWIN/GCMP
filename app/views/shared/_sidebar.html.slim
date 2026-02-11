@@ -3,8 +3,12 @@ aside.w-56.bg-white.h-full.shadow-md.py-8.px-6.flex-shrink-0
     = link_to "#", class: "text-gray-700 font-semibold text-xl mb-10" do
       | GLAM
 
-    = link_to "#", class: "text-gray-700 hover:text-black" do
-      | Users
+    - if current_user&.admin?
+      = link_to users_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
+        i.fa-solid.fa-users
+        | Users
 
-    = link_to "#", class: "text-gray-700 hover:text-black" do
-      | Branch
+    - if current_user
+      = link_to appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
+        i.fa-solid.fa-calendar-check
+        | Appointment slot

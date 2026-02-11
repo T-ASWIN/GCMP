@@ -76,3 +76,5 @@ gem "bcrypt", "~> 3.1.7"
 
 gem 'active_interaction', '~> 5.0'
 gem "devise", "~> 5.0"
+
+gem "pundit", "~> 2.5"

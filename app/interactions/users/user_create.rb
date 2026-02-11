@@ -1,10 +1,8 @@
 class Users::UserCreate < ActiveInteraction::Base
-  object :user
   hash :user_attributes, strip: false
 
   def execute
-    # Use the new name here
-    user.assign_attributes(user_attributes)
+    user = User.new(user_attributes)
 
     if user.save
       user

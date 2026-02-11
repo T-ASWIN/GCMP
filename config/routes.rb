@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-   resources :users, path: 'manage_users' do
+
+  root to: "users#index"
+
+   resources :users, only: [:index, :new, :create, :edit, :update] do
     member do
       get :is_active
       patch :update_status
@@ -12,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :appointment_slots, only: [:index]
 
-  root to: "users#index"
+  
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

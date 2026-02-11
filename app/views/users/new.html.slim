@@ -9,14 +9,6 @@
     .text-center.mb-6
       h2.text-2xl.font-bold style="color: #1e293b;" User Form
     
-
-    /-- Error Handling
-    - if @user&.errors&.any?
-      .border.rounded-xl.p-4.mb-5 style="background-color: #fff1f2; border-color: #fecdd3;"
-        ul.list-disc.list-inside.text-sm.ml-7 style="color: #e11d48;"
-          - @user.errors.full_messages.each do |msg|
-            li = msg
-
     /-- Form Start
     = form_with model: @user, class: "space-y-6" do |f|
       .space-y-2
