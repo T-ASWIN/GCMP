@@ -1,0 +1,64 @@
+.p-8.min-h-screen style="background-color: #f8fafc;"
+  /-- Heading outside the card
+  .max-w-4xl.mx-auto.mb-6.px-12
+    h1.text-2xl.font-extrabold style="color: #0f172a;" New User
+
+  /-- The Centered Card
+  .max-w-md.mx-auto.p-4.border.rounded-2xl.shadow-sm style="background-color: #c9e5eb; border-color: #65696e;"
+    
+    .text-center.mb-6
+      h2.text-2xl.font-bold style="color: #1e293b;" User Form
+    
+    /-- Form Start
+    = form_with model: @user, class: "space-y-6" do |f|
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" User Name
+        = f.text_field :name, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;", \
+          placeholder: "Full Name"
+
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Email 
+        = f.email_field :email, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;", \
+          placeholder: "email@example.com"
+      
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Unique ID
+        = f.text_field :unique_id, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;", \
+          placeholder: "ID-12345"
+
+      .grid.grid-cols-1.sm:grid-cols-2.gap-6
+        .space-y-2
+          label.block.text-sm.font-semibold style="color: #334155;" Role
+          .relative
+            = f.select :role, User.roles.keys.map { |r| [r.titleize, r] }, {}, \
+              class: "appearance-none block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all shadow-sm", \
+              style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;"
+        
+        .space-y-2
+          label.block.text-sm.font-semibold style="color: #334155;" Status
+          .relative
+            = f.select :status, User.statuses.keys.map { |s| [s.titleize, s] }, {}, \
+              class: "appearance-none block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all shadow-sm", \
+              style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;"
+
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Password
+        = f.password_field :password, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;"
+
+      /-- Footer Buttons
+      .pt-5.flex.justify-between.items-center
+        = link_to 'Back to Users', users_path, \
+          class: 'px-6 py-2 border rounded-lg text-sm font-medium transition-colors', \
+          style: "border-color: #334155; color: #ffffff; background-color: #334155;"
+        
+        = f.submit "Save User", \
+          class: "text-white py-2 px-8 rounded-lg font-bold shadow-sm cursor-pointer transition-all active:scale-95", \
+          style: "background-color: #334155;"

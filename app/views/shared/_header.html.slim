@@ -1,5 +1,19 @@
 header.bg-white.shadow-sm.py-4.px-8.flex.justify-between.items-center
   h1.text-xl.font-bold GLAM
 
-  .flex.items-center.gap-3
-   span.text-gray-600 Hi, User
+  .flex.items-center.gap-4
+    - if user_signed_in?
+      span.text-gray-600 
+        | Hi, 
+        strong = current_user.name.capitalize
+      
+      = link_to 'Logout', destroy_user_session_path, 
+        data: { turbo_method: :delete }, 
+        class: "text-sm font-medium text-red-600 hover:text-red-800 transition"
+        
+    - else
+      = link_to 'Login', new_user_session_path, 
+        class: "text-sm font-medium text-blue-600 hover:text-blue-800"
+      
+      = link_to 'Sign Up', new_user_registration_path, 
+        class: "bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition"

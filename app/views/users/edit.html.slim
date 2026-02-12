@@ -1,0 +1,32 @@
+.max-w-md.mx-auto.mt-12.p-10.bg-white.border.border-slate-200.rounded-2xl.shadow-sm style="background-color: #c9e5eb; border-color: #65696e;"
+  /-- Header
+  .flex.justify-between.items-end.mb-10
+    .space-y-1
+      span.text-xl.font-bold.uppercase.text-state-600 Edit Profile
+      h1.text-3xl.font-extrabold.tracking-tight.text-slate-900 = @user.name
+    = link_to 'Cancel', users_path, class: 'text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors'
+
+
+  /-- Form
+  = form_with(model: @user, class: "space-y-6") do |f|
+    .space-y-2
+      = f.label :name, class: "block text-sm font-semibold text-slate-700"
+      = f.text_field :name, class: "block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all placeholder:text-slate-400 shadow-sm"
+
+    .space-y-2
+      = f.label :email, class: "block text-sm font-semibold text-slate-700"
+      = f.email_field :email, class: "block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all placeholder:text-slate-400 shadow-sm"
+
+    .grid.grid-cols-1.sm:grid-cols-2.gap-6
+      .space-y-2
+        = f.label :role, class: "block text-sm font-semibold text-slate-700"
+        .relative
+          = f.select :role, User.roles.keys.map { |r| [r.titleize, r] }, {}, class: "appearance-none block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all bg-white shadow-sm"
+      
+      .space-y-2
+        = f.label :status, class: "block text-sm font-semibold text-slate-700"
+        .relative
+          = f.select :status, User.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "appearance-none block w-full px-4 py-3 rounded-xl border-slate-200 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all bg-white shadow-sm"
+
+    .pt-6
+      = f.submit "Save Changes", class: "w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-4 rounded-xl font-bold shadow-lg shadow-slate-200 transition-all active:scale-[0.98] cursor-pointer"
