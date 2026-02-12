@@ -1,25 +1,26 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only:[:edit, :update, :update_status]
+  skip_before_action :authenticate_user!, only: [:new, :create]
     def index
       authorize User
      @users = User.userData
     end
 
   def new
-    authorize User
     @user = User.new
   end
 
   def create  
-  authorize User
   result = Users::Create.run(
     user_attributes: user_params.to_h
   )
   
   if result.valid?
-    redirect_to users_path, notice: "User successfully created!"
+    sign_in(result.result)
+    redirect_to root_path, notice: "Account created successfully!"
   else
+    @user = result.result
     flash.now[:alert] = result.errors.full_messages.to_sentence
     render :new, status: :unprocessable_entity
   end
@@ -69,10 +70,11 @@ end
       redirect_to users_path, alert: "User not found"
     else
       authorize @user
-    end  end
+    end  
+  end
 
   def user_params
-    params.require(:user).permit(:name, :email, :unique_id, :password, :password_confirmation, :role, :status)
+    params.require(:user).permit(:name, :email, :unique_id, :password, :password_confirmation, :role, :status, :branch_id)
   end
 
 end

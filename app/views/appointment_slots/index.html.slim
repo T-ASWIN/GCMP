@@ -1,9 +1,5 @@
 div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12"
   
-  / 1. Added the times array here
-  - times = ["09:00 - 09:30", "09:30 - 10:00", "10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00", "12:00 - 12:30", "12:30 - 01:00", "02:00 - 02:30", "02:30 - 03:00", "03:00 - 03:30", "03:30 - 04:00", "04:00 - 04:30", "04:30 - 05:00"]
-
-  / 2. Added pt-10 to this header div for top padding
   div class="flex items-center gap-6 mb-8 pt-2"
     div class="flex items-center gap-2"
       i class="far fa-clock text-gray-600 text-sm"
@@ -11,40 +7,57 @@ div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12"
 
     div class="flex items-center gap-4"
       div class="flex items-center gap-2"
-        span class="text-sm font-bold text-gray-700" 07 Feb
+        span class="text-sm font-bold text-gray-700" = Date.parse(@selected_date).strftime("%d %b")
       
       div class="flex items-center gap-2"
-        input type="date"  data-appointment-slot-calendar-target="picker"
+        input type="text" value="#{@selected_date}" data-appointment-slot-calendar-target="picker"
 
   div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-    / 3. Changed loop to use the 'times' array defined above
-    - times.each_with_index do |time, index|
-      / Alternate status for demonstration
-      - status = index % 3 == 0 ? "available" : "blocked"
-
-      - if status == "available"
-        / AVAILABLE SLOT (Your exact UI)
-        / Note: Added border-green-500 here so the border isn't black
+    - @paginated_slots.each do |slot|
+      / ALL CODE BELOW MUST BE INDENTED 2 SPACES RELATIVE TO THE LOOP ABOVE
+      - if slot.available?
         div class="relative p-6 rounded-2xl bg-green-100 border-2 border-green-500 shadow-sm"
           div class="flex justify-between items-start mb-1"
-            span class="font-bold text-gray-900 text-lg tracking-tight" = time
+            span class="font-bold text-gray-900 text-lg tracking-tight"
+              = "#{slot.start_time.strftime('%H:%M')} - #{slot.end_time.strftime('%H:%M')}"
             i class="fas fa-unlock-alt text-emerald-400 text-sm"
           
-          p class="text-[11px] text-gray-600 mb-5 font-large" Dr. Sarah Johnson
+          / Added '=' to display the name
+          p class="text-[11px] text-gray-600 mb-5 font-large" = @user.name
           
           div class="flex items-center gap-2"
             span class="w-2 h-2 rounded-full bg-emerald-500"
             span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest" AVAILABLE
 
       - else
-        / BLOCKED SLOT (Your exact UI)
         div class="relative p-6 rounded-2xl bg-gray-50 border border-gray-200 border-2"
           div class="flex justify-between items-start mb-1"
-            span class="font-bold text-gray-700 text-lg tracking-tight" = time
+            span class="font-bold text-gray-700 text-lg tracking-tight" 
+              = "#{slot.start_time.strftime('%H:%M')} - #{slot.end_time.strftime('%H:%M')}"
             i class="fas fa-lock text-gray-500 text-sm"
           
-          p class="text-[11px] text-gray-600 mb-5 font-large" Dr. Sarah Johnson
+          / Added '=' to display the name
+          p class="text-[11px] text-gray-600 mb-5 font-large" = @user.name
           
           div class="flex items-center gap-2"
             span class="w-2 h-2 rounded-full bg-gray-400"
             span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" BLOCKED
+
+  div style="display: flex; justify-content: center; width: 100%; margin-top: 24px; font-family: sans-serif;"
+  nav.pagy-custom-nav style="display: flex; gap: 8px; justify-content: center; align-items: center;"
+     == @pagy.series_nav()
+
+style
+  | .pagy-custom-nav a, .pagy-custom-nav span {
+  |   padding: 8px 16px;
+  |   border-radius: 6px;
+  |   border: 1px solid #ddd;
+  |   text-decoration: none;
+  |   color: #333;
+  |   font-size: 14px;
+  | }
+  | .pagy-custom-nav a:hover {
+  |   background-color: #f0f0f0;
+  | }
+  
+   
