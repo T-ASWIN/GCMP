@@ -31,8 +31,11 @@ devise_scope :user do
 
  
 
-  resources :appointment_slots, only: [:index]
-
+  resources :appointment_slots, only: [:index] do
+  member do
+    patch :slot_update
+  end
+end
   resources :branches, only: [:index]
 
   get "up" => "rails/health#show", as: :rails_health_check

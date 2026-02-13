@@ -1,3 +1,6 @@
+- today = Date.today
+- max_date = today + 6.days
+
 div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12"
   
   div class="flex items-center gap-6 mb-8 pt-2"
@@ -6,58 +9,54 @@ div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12"
       span class="text-sm font-bold text-gray-700" Time Slots
 
     div class="flex items-center gap-4"
-      div class="flex items-center gap-2"
-        span class="text-sm font-bold text-gray-700" = Date.parse(@selected_date).strftime("%d %b")
+      span class="text-sm font-bold text-gray-700" = Date.parse(@selected_date).strftime("%d %b")
       
-      div class="flex items-center gap-2"
-        input type="text" value="#{@selected_date}" data-appointment-slot-calendar-target="picker"
+    div class="flex items-center gap-2"
+      button (
+        type="button"
+        class="flex items-center justify-center p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-gray-600"
+        onclick="document.getElementById('date_picker_input').showPicker()"
+      )
+        i class="far fa-calendar-alt text-lg"
+
+      input (
+        id="date_picker_input"
+        type="date"
+        min="#{today}"
+        max="#{max_date}" 
+        value="#{@selected_date}" 
+        onchange="window.location.href = '/appointment_slots?date=' + this.value"
+        class="absolute opacity-0 pointer-events-none w-0 h-0"
+      )
 
   div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
     - @paginated_slots.each do |slot|
-      / ALL CODE BELOW MUST BE INDENTED 2 SPACES RELATIVE TO THE LOOP ABOVE
-      - if slot.available?
-        div class="relative p-6 rounded-2xl bg-green-100 border-2 border-green-500 shadow-sm"
-          div class="flex justify-between items-start mb-1"
-            span class="font-bold text-gray-900 text-lg tracking-tight"
-              = "#{slot.start_time.strftime('%H:%M')} - #{slot.end_time.strftime('%H:%M')}"
-            i class="fas fa-unlock-alt text-emerald-400 text-sm"
-          
-          / Added '=' to display the name
-          p class="text-[11px] text-gray-600 mb-5 font-large" = @user.name
-          
-          div class="flex items-center gap-2"
-            span class="w-2 h-2 rounded-full bg-emerald-500"
-            span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest" AVAILABLE
-
-      - else
-        div class="relative p-6 rounded-2xl bg-gray-50 border border-gray-200 border-2"
-          div class="flex justify-between items-start mb-1"
-            span class="font-bold text-gray-700 text-lg tracking-tight" 
-              = "#{slot.start_time.strftime('%H:%M')} - #{slot.end_time.strftime('%H:%M')}"
-            i class="fas fa-lock text-gray-500 text-sm"
-          
-          / Added '=' to display the name
-          p class="text-[11px] text-gray-600 mb-5 font-large" = @user.name
-          
-          div class="flex items-center gap-2"
-            span class="w-2 h-2 rounded-full bg-gray-400"
-            span class="text-[10px] font-black text-gray-400 uppercase tracking-widest" BLOCKED
+      - is_avail = slot.available?
+      div ( 
+        class="relative p-6 rounded-2xl border-2 shadow-sm cursor-pointer transition-all hover:scale-[1.01] #{is_avail ? 'bg-green-100 border-green-500' : 'bg-gray-50 border-gray-200'}"
+        data-controller="appointment-slot"
+        data-action="click->appointment-slot#slot_update"
+        data-appointment-slot-id-value="#{slot.id}"
+      )
+        div class="flex justify-between items-start mb-1"
+          span class="font-bold text-lg tracking-tight #{is_avail ? 'text-gray-900' : 'text-gray-700'}"
+            = "#{slot.start_time.strftime('%H:%M')} - #{slot.end_time.strftime('%H:%M')}"
+          i class="fas fa-#{is_avail ? 'unlock-alt text-emerald-400' : 'lock text-gray-500'} text-sm"
+        
+        p class="text-[11px] text-gray-600 mb-5 font-large" = @user.name
+        
+        div class="flex items-center gap-2"
+          span class="w-2 h-2 rounded-full #{is_avail ? 'bg-emerald-500' : 'bg-gray-400'}"
+          span class="text-[10px] font-black uppercase tracking-widest #{is_avail ? 'text-emerald-600' : 'text-gray-400'}" 
+            = is_avail ? 'AVAILABLE' : 'BLOCKED'
 
   div style="display: flex; justify-content: center; width: 100%; margin-top: 24px; font-family: sans-serif;"
-  nav.pagy-custom-nav style="display: flex; gap: 8px; justify-content: center; align-items: center;"
-     == @pagy.series_nav()
+    nav.pagy-custom-nav style="display: flex; gap: 8px; justify-content: center; align-items: center;"
+      == @pagy.series_nav()
 
 style
   | .pagy-custom-nav a, .pagy-custom-nav span {
-  |   padding: 8px 16px;
-  |   border-radius: 6px;
-  |   border: 1px solid #ddd;
-  |   text-decoration: none;
-  |   color: #333;
-  |   font-size: 14px;
+  |   padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd;
+  |   text-decoration: none; color: #333; font-size: 14px;
   | }
-  | .pagy-custom-nav a:hover {
-  |   background-color: #f0f0f0;
-  | }
-  
-   
+  | .pagy-custom-nav a:hover { background-color: #f0f0f0; }
