@@ -42,6 +42,13 @@
           = f.label :password_confirmation, "Confirm Password", class: "block text-sm font-medium text-gray-700"
           .mt-1
             = f.password_field :password_confirmation, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        
+        div
+          = f.label :branch_id, "Select Branch", class: "block text-sm font-medium text-gray-700"
+          .mt-1
+            = f.collection_select :branch_id, Branch.all, :id,:name, 
+                                 { prompt: "Choose a branch" }, 
+                                 { class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" }
 
         div.pt-2
           = f.submit "Sign up", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none"

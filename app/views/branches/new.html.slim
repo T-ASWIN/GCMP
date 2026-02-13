@@ -1,0 +1,53 @@
+.p-8.min-h-screen style="background-color: #f8fafc;"
+  /-- Heading outside the card
+  .max-w-4xl.mx-auto.mb-6.px-12
+    h1.text-2xl.font-extrabold style="color: #0f172a;" New Branch
+
+  /-- The Centered Card
+  .max-w-md.mx-auto.p-4.border.rounded-2xl.shadow-sm style="background-color: #c9e5eb; border-color: #65696e;"
+    
+    .text-center.mb-6
+      h2.text-2xl.font-bold style="color: #1e293b;" Branch Form
+    
+    /-- Form Start
+    = form_with model: @branch, class: "space-y-6" do |f|
+      /-- Error Display
+      - if @branch.errors.any?
+        .bg-red-50.p-4.rounded-md.mb-6
+          ul.list-disc.pl-5.text-sm.text-red-700
+            - @branch.errors.full_messages.each do |msg|
+              li = msg
+
+      /-- Branch Name
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Branch Name
+        = f.text_field :name, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;", \
+          placeholder: "e.g. Downtown Office"
+
+      /-- Branch Location (Added here)
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Branch Location
+        = f.text_field :location, \
+          class: "block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all", \
+          style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;", \
+          placeholder: "e.g. 123 Main St, New York"
+
+      /-- Status
+      .space-y-2
+        label.block.text-sm.font-semibold style="color: #334155;" Status
+        .relative
+          = f.select :status, Branch.statuses.keys.map { |s| [s.titleize, s] }, {}, \
+            class: "appearance-none block w-full px-4 py-2 rounded-lg border focus:ring-2 transition-all shadow-sm", \
+            style: "border-color: #ffffff; background-color: #ffffff; color: #0f172a;"
+
+      /-- Footer Buttons
+      .pt-5.flex.justify-between.items-center
+        = link_to 'Back to Branches', branches_path, \
+          class: 'px-6 py-2 border rounded-lg text-sm font-medium transition-colors', \
+          style: "border-color: #334155; color: #ffffff; background-color: #334155;"
+        
+        = f.submit "Save Branch", \
+          class: "text-white py-2 px-8 rounded-lg font-bold shadow-sm cursor-pointer transition-all active:scale-95", \
+          style: "background-color: #334155;"

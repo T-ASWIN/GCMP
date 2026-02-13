@@ -1,0 +1,47 @@
+.p-8.bg-slate-50.min-h-screen
+  .max-w-7xl.mx-auto
+    /-- Header Section: Changed to Add Branch
+    .flex.items-center.justify-between.mb-8
+      h1.text-3xl.font-extrabold.tracking-tight.text-slate-900 Branch
+      .flex.gap-2
+        = link_to 'Add Branch', new_branch_path, class: 'bg-black text-white px-8 py-2 rounded-full font-bold shadow-md hover:bg-slate-800 transition-colors'
+
+    /-- Table Container
+    .mb-6.overflow-x-auto.shadow-sm.rounded-xl.border style="border-color:#E5E7EB; background-color:white;"
+      table.min-w-full.border-collapse
+        thead style="background-color:#c9e5eb"
+          tr.border-b style="border-color:#E5E7EB"
+            th.px-8.py-4.text-left.text-sm.font-semibold style="color:#374151;" Branch Name
+            th.px-8.py-4.text-center.text-sm.font-semibold style="color:#374151;" Branch Location
+            th.px-8.py-4.text-center.text-sm.font-semibold style="color:#374151;" Status
+            th.px-8.py-4.text-right.text-sm.font-semibold style="color:#374151;" Actions
+        
+        tbody style="background-color:#c9e5eb"
+          - @branches.each do |branch|
+            tr.transition-all.duration-200 class="hover:bg-white" style="border-bottom: 1px solid #E5E7EB"
+              /-- Branch Name
+              td.px-8.py-5.text-sm.font-bold.text-slate-900
+                = branch.name
+              
+              td.px-8.py-5.text-sm.text-center.text-slate-600
+                = branch.location.presence || "No location set"
+
+              /-- Status Toggle (Branch Level)
+              td.px-8.py-5.text-center
+                = form_with model: branch, url: update_status_branch_path(branch), method: :patch, local: true do |f|
+                  label.relative.inline-flex.items-center.cursor-pointer
+                    = f.check_box :status, 
+                      { checked: branch.active?, 
+                        class: "sr-only peer", 
+                        onchange: "this.form.submit()" }, 
+                      "active", "inactive"
+                    
+                    div class="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"
+                    
+                    span.ms-3.text-xs.font-bold.text-slate-600.w-16.text-left class="peer-checked:text-blue-600"
+                      = branch.active? ? 'Active' : 'Inactive'
+              
+              /-- Actions
+              td.px-8.py-5.text-sm.text-right
+                .inline-flex.gap-4
+                  = link_to 'Edit', edit_branch_path(branch), class: 'text-slate-400 hover:text-black font-medium transition-colors'
