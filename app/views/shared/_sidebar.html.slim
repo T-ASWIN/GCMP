@@ -3,7 +3,13 @@ aside.w-56.bg-white.h-full.shadow-md.py-8.px-6.flex-shrink-0
     = link_to "#", class: "text-gray-700 font-semibold text-xl mb-10" do
       | GLAM
 
-    - if current_user&.admin?
+    - if user_signed_in? && current_user.user?
+        = link_to profile_path, class: "flex items-center gap-2 text-gray-600 hover:ttext-black flex items-center gap-2" do
+          i class="fas fa-user-circle text-lg"
+          span.text-sm.font-medium My Profile
+
+
+    - if user_signed_in? && current_user.admin?
       = link_to users_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
         i.fa-solid.fa-users
         | Users
@@ -12,7 +18,11 @@ aside.w-56.bg-white.h-full.shadow-md.py-8.px-6.flex-shrink-0
         i.fa-solid.fa-code-branch
         | Branch
 
-    - if current_user
+    - if current_user && current_user.user?
       = link_to appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
         i.fa-solid.fa-calendar-check
         | Appointment slot
+    
+    - if user_signed_in? && current_user.admin?
+      = link_to admin_appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
+        |Slot Search 

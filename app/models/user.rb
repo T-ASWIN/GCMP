@@ -17,4 +17,9 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true
   # validates :unique_id, presence: true, uniqueness: true
+  
+  def self.ransackable_attributes(auth_object = nil)
+  ["name", "email", "id"]
+end
+
 end

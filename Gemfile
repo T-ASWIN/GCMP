@@ -81,3 +81,4 @@ gem "pundit", "~> 2.5"
 
 gem 'pagy'
 
+gem 'ransack'

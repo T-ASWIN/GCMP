@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   
   if result.valid?
     sign_in(result.result)
-    redirect_to root_path, notice: "Account created successfully!"
+    redirect_to redirect_based_on_role(current_user), notice: "Account created successfully!"
   else
     @user = result.result
     flash.now[:alert] = result.errors.full_messages.to_sentence
