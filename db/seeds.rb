@@ -10,7 +10,7 @@
 
 # db/seeds.rb
 
-user = User.find_or_create_by!(email: 'user2@gmail.com') do |u|
+user = User.find_or_create_by!(email: 'user@gmail.com') do |u|
   u.password = 'Welcome@123'
   u.role = :admin
   u.status = :active

@@ -26,10 +26,11 @@ default: &default
 development:
   adapter: postgresql
   encoding: unicode
-  database: GCMP_slot_development
+  database: GCMP
   username: postgres
-  password: admin@123
-  host: localhost
+  password: 221IT105@aswin
+  host: 127.0.0.1
+  port: 5432
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -64,10 +65,11 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: GCMP_slot_test
+  database: GCMP
   username: postgres
-  password: admin@123
-  host: localhost
+  password: 221IT105@aswin
+  host: 127.0.0.1
+  port: 5432
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

@@ -46,6 +46,11 @@ end
 
   resource :profile, only: [:show, :update]
 
+  resources :gold_prices, only: [:index] do
+      collection do
+        post :refresh 
+      end
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

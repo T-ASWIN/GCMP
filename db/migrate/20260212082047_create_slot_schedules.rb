@@ -12,5 +12,9 @@ class CreateSlotSchedules < ActiveRecord::Migration[8.1]
       t.integer :status, default: 0, null: false
       t.timestamps
     end
+
+    add_index :slot_schedules, [:user_id, :date]
+
+    add_index :slot_schedules, [:user_id, :date, :start_time], unique: true, name: 'idx_unique_user_slot'
   end
 end

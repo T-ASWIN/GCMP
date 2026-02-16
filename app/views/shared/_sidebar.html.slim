@@ -25,4 +25,9 @@ aside.w-56.bg-white.h-full.shadow-md.py-8.px-6.flex-shrink-0
     
     - if user_signed_in? && current_user.admin?
       = link_to admin_appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
+        i.fa-solid.fa-check-to-slot
         |Slot Search 
+    
+    = link_to gold_prices_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
+      i.fa-solid.fa-coins
+      span.text-sm.font-medium Gold Market

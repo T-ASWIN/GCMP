@@ -82,3 +82,4 @@ gem "pundit", "~> 2.5"
 gem 'pagy'
 
 gem 'ransack'
+gem "good_job", "~> 4.13"

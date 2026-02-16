@@ -6,19 +6,22 @@
       .flex.gap-2
         = link_to 'Add Branch', new_branch_path, class: 'bg-black text-white px-8 py-2 rounded-full font-bold shadow-md hover:bg-slate-800 transition-colors'
 
-    /-- Table Container
-    .mb-6.overflow-x-auto.shadow-sm.rounded-xl.border style="border-color:#E5E7EB; background-color:white;"
-      table.min-w-full.border-collapse
-        thead style="background-color:#c9e5eb"
-          tr.border-b style="border-color:#E5E7EB"
-            th.px-8.py-4.text-left.text-sm.font-semibold style="color:#374151;" Branch Name
-            th.px-8.py-4.text-center.text-sm.font-semibold style="color:#374151;" Branch Location
-            th.px-8.py-4.text-center.text-sm.font-semibold style="color:#374151;" Status
-            th.px-8.py-4.text-right.text-sm.font-semibold style="color:#374151;" Actions
+    /-- Table Container updated to match image shadows and rounding
+    .mb-6.overflow-x-auto.shadow-xl.rounded-xl.border-none
+      table.min-w-full.border-collapse.bg-white
+        /-- Header background updated to the muted blue-gray from image
+        thead style="background-color: #A9B5D1;"
+          tr
+            th.px-8.py-5.text-left.text-xs.font-bold.tracking-widest.text-white.uppercase Branch Name
+            th.px-8.py-5.text-center.text-xs.font-bold.tracking-widest.text-white.uppercase Branch Location
+            th.px-8.py-5.text-center.text-xs.font-bold.tracking-widest.text-white.uppercase Status
+            th.px-8.py-5.text-right.text-xs.font-bold.tracking-widest.text-white.uppercase Actions
         
-        tbody style="background-color:#c9e5eb"
-          - @branches.each do |branch|
-            tr.transition-all.duration-200 class="hover:bg-white" style="border-bottom: 1px solid #E5E7EB"
+        /-- Removed the fixed background color from tbody to allow zebra/hover to work
+        tbody
+          - @branches.each_with_index do |branch, index|
+            /-- Row styling: zebra variation and interactive hover
+            tr class=(index.odd? ? "bg-slate-50/50" : "bg-white") class="hover:bg-blue-50/60 transition-colors border-b last:border-0" style="border-color: #F3F4F6;"
               /-- Branch Name
               td.px-8.py-5.text-sm.font-bold.text-slate-900
                 = branch.name
