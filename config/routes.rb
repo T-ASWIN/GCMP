@@ -48,9 +48,11 @@ end
 
   resources :gold_prices, only: [:index] do
       collection do
-        post :refresh 
+        post :update_goldrate 
       end
   end
 
+  mount GoodJob::Engine => 'good_job'
+  
   get "up" => "rails/health#show", as: :rails_health_check
 end

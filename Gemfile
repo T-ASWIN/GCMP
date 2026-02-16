@@ -83,3 +83,5 @@ gem 'pagy'
 
 gem 'ransack'
 gem "good_job", "~> 4.13"
+
+gem 'whenever', require: false

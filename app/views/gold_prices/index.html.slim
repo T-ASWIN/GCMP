@@ -1,46 +1,41 @@
 h1.text-3xl.font-bold.mb-8 Market Prices
 
-/-- Wrapper to handle the layout
 .w-full.max-w-7xl.mx-auto
-  /-- Card Container: Takes 1/3 width on desktop (w-1/3)
-  .bg-white.rounded-3xl.shadow-lg.overflow-hidden.flex.items-stretch.border.border-slate-100.w-full.h-[33vh]  
-    /-- Left Side: Image Section (40% of the card)
+  /-- Card Container
+  .bg-white.rounded-3xl.shadow-lg.overflow-hidden.flex.items-stretch.border.border-slate-100.w-full.min-h-[40vh] 
+    /-- Left Side: Image Section
     .w-2/5.relative
       img.h-full.w-full.object-cover src="https://cashyourgold.net.au/wp-content/uploads/2025/09/CYG.jpg" alt="Gold Bars"
     
-    /-- Right Side: Content Section (60% of the card)
-    .w-3/5.p-8.relative.flex.flex-col.justify-between
-      /-- XAU Badge
+    /-- Right Side: Content Section
+    .w-3/5.p-8.relative.flex.flex-col
       .absolute.top-6.right-6.px-3.py-1.rounded-full.text-xs.font-bold style="background-color: #FFF9E6; color: #D4AF37; border: 1px solid #F3E5AB;"
         | XAU
 
-      - if @latest_price
+      - if @latest_price.any?
         div
-          h2.text-2xl.font-extrabold.text-slate-900.mb-1 22K Gold Price
-          p.text-sm.font-medium.text-slate-400.mb-4 Live Market Price
-          
-          .flex.items-baseline.gap-2.mb-1
-            span.text-5xl.font-black.text-slate-900
-              = number_to_currency(@latest_price.price_22k)
-            
-            /-- FIXED: Using '|' ensures Slim treats this as literal text
-            span.text-lg.font-bold.text-slate-500
-              | / gram
-          
-          /-- Decorative Gold Underline
-          .flex.items-center.gap-2.mb-8
-            .h-1.w-16.rounded-full style="background-color: #FBBF24;"
-            span class="text-[10px] font-bold uppercase tracking-widest text-slate-400" PRICE PER GRAM
+          h2.text-2xl.font-extrabold.text-slate-900.mb-1 Gold Market Rates
+          p.text-sm.font-medium.text-slate-400.mb-6 Live Market Price per Gram
+
+          /-- Grid for different purities
+          .grid.grid-cols-2.gap-6.mb-8
+            - @latest_price.each do |gp|
+              .flex.flex-col.border-l-4.pl-4 style="border-color: #FBBF24;"
+                span.text-xs.font-black.text-slate-400.uppercase = "#{gp.purity} Gold"
+                .flex.items-baseline.gap-1
+                  span.text-2xl.font-black.text-slate-900
+                    = number_to_currency(gp.price)
+                  span.text-xs.font-bold.text-slate-500 | /g
 
         /-- Footer Section
         .mt-auto.flex.items-end.justify-between
           div
             p class="text-[10px] font-bold uppercase tracking-tighter text-slate-400 mb-1" LAST UPDATED
             p.text-sm.font-bold.text-slate-700
-              = Time.at(@latest_price.timestamp).in_time_zone.strftime("%B %d, %I:%M %p")
+              /-- Take timestamp from the first record in the collection
+              = @latest_price.first.timestamp.in_time_zone.strftime("%B %d, %I:%M %p")
           
-          /-- Refresh Button
-          = button_to refresh_gold_prices_path, method: :post, class: "group flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all hover:brightness-110", style: "background-color: #FBBF24;", data: { turbo: false }
+          = button_to update_goldrate_gold_prices_path, method: :post, class: "group flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all hover:brightness-110", style: "background-color: #FBBF24;", data: { turbo: false }
             svg.w-5.h-5.transition-transform.group-hover:rotate-180 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             | Refresh
@@ -48,4 +43,4 @@ h1.text-3xl.font-bold.mb-8 Market Prices
       - else
         .flex.flex-col.items-center.justify-center.h-full.text-center
           p.text-slate-400 No data available.
-          = button_to "Fetch Price", refresh_gold_prices_path, method: :post, class: "mt-4 text-sm font-bold text-amber-600 underline"
+          = button_to "Fetch Price", update_goldrate_gold_prices_path, method: :post, class: "mt-4 text-sm font-bold text-amber-600 underline"

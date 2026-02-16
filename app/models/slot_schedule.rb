@@ -9,7 +9,6 @@ class SlotSchedule < ApplicationRecord
     ["created_at", "date", "end_time", "id", "start_time", "status", "updated_at", "user_id"]
   end
 
-  # 2. Allow searching through the :user association
   def self.ransackable_associations(auth_object = nil)
     ["user"]
   end

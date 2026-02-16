@@ -1,3 +1,8 @@
 class GoldPrice < ApplicationRecord
-    scope :latest, -> { order(created_at: :desc).first }
+
+    scope :latest_set, -> { 
+    where(timestamp: maximum(:timestamp))
+    .order(purity: :desc) 
+     } 
+
 end

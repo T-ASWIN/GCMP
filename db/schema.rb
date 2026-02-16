@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_100933) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_065600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,10 +26,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_100933) do
     t.datetime "created_at", null: false
     t.string "currency"
     t.string "metal"
-    t.float "price"
-    t.float "price_22k"
+    t.decimal "price", precision: 10, scale: 4
     t.float "price_gram_22k"
-    t.integer "timestamp"
+    t.string "purity"
+    t.timestamptz "timestamp"
     t.datetime "updated_at", null: false
   end
 

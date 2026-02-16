@@ -9,10 +9,16 @@ class ProfilesController < ApplicationController
   @user = current_user
   authorize @user
 
-  if @user.update(user_params)
+  result = Users::UpdateProfile.run(
+    user: @user,
+    user_attributes: user_params
+  )
+
+  if result.valid?
     redirect_to profile_path, notice: "Profile updated successfully"
   else
-    render :show
+    @user = result.result
+    render :show, status: :unprocessable_entity
   end
 end
 
