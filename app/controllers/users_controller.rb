@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only:[:edit, :update, :update_status]
-  skip_before_action :authenticate_user!, only: [:new, :create]
     def index
       authorize User
      @users = User.userData
@@ -17,7 +16,6 @@ class UsersController < ApplicationController
   )
   
   if result.valid?
-    sign_in(result.result)
     redirect_to redirect_based_on_role(current_user), notice: "Account created successfully!"
   else
     @user = result.result

@@ -1,4 +1,4 @@
-class Users::UpdateProfile < ActiveInteraction::Base
+class Profile::Update < ActiveInteraction::Base
     object :user
     hash :user_attributes, strip: false
 

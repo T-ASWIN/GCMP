@@ -18,15 +18,10 @@ aside.w-56.bg-white.h-full.shadow-md.py-8.px-6.flex-shrink-0
         i.fa-solid.fa-code-branch
         | Branch
 
-    - if current_user && current_user.user?
+    - if user_signed_in?
       = link_to appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
         i.fa-solid.fa-calendar-check
         | Appointment slot
-    
-    - if user_signed_in? && current_user.admin?
-      = link_to admin_appointment_slots_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
-        i.fa-solid.fa-check-to-slot
-        |Slot Search 
     
     = link_to gold_prices_path, class: "text-gray-700 hover:text-black flex items-center gap-2" do
       i.fa-solid.fa-coins

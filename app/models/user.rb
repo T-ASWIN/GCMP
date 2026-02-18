@@ -7,19 +7,19 @@ class User < ApplicationRecord
   belongs_to :branch, optional: true
   has_many :slot_schedules, dependent: :destroy
   
-  enum :role, { user: 0, admin: 1 }, default: :user
+  enum :role, { user: "user", admin: "admin" }, default: "user"
+  validates :role, inclusion: { in: %w[user admin] }
 
-  # Define the Status (for your Active/Inactive toggle)
-  enum :status, { active: 0, inactive: 1 }, default: :active
+
+  enum :status, { active: "active", inactive: "inactive" }, default: "active"
+  validates :status, inclusion: { in: %w[active inactive] }
 
   scope :userData, -> { order(created_at: :desc) }
 
-  # Validations
   validates :email, presence: true, uniqueness: true
-  # validates :unique_id, presence: true, uniqueness: true
   
   def self.ransackable_attributes(auth_object = nil)
-  ["name", "email", "id"]
-end
+     ["name", "email", "id"]
+  end
 
 end

@@ -12,4 +12,8 @@ class SlotSchedule < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["user"]
   end
+
+  def toggle_availability!
+    available? ? blocked! : available!
+  end
 end

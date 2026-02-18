@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_16_065600) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_103800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,7 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_065600) do
     t.datetime "created_at", null: false
     t.string "location"
     t.string "name"
-    t.integer "status", default: 0
+    t.string "status", default: "active"
     t.datetime "updated_at", null: false
   end
 
@@ -144,8 +144,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_065600) do
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
-    t.integer "role", default: 1
-    t.integer "status", default: 1
+    t.string "role", default: "user"
+    t.string "status", default: "active"
     t.string "unique_id", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_users_on_branch_id"

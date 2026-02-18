@@ -39,9 +39,6 @@ devise_scope :user do
     end
   end
 
-namespace :admin do
-  resources :appointment_slots, only: [:index]
-end
   resources :branches, only: [:index]
 
   resource :profile, only: [:show, :update]
@@ -53,6 +50,6 @@ end
   end
 
   mount GoodJob::Engine => 'good_job'
-  
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
   @user = current_user
   authorize @user
 
-  result = Users::UpdateProfile.run(
+  result = Profile::Update.run(
     user: @user,
     user_attributes: user_params
   )
@@ -23,7 +23,7 @@ class ProfilesController < ApplicationController
 end
 
   def user_params
-  params.require(:user).permit(:email, :status, :branch_id)
+  params.require(:user).permit(:name, :email, :status, :branch_id)
 end
 
 end

@@ -1,22 +1,26 @@
 class AppointmentSlotsController < ApplicationController
-before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def index
-  @user = current_user
-    @selected_date = params[:date] || Date.today.to_s
+    result = AppointmentSlots::FetchAppointmentSlots.run(
+    user: current_user, 
+    params: params.to_unsafe_h
+    )
 
-    all_slots = @user.slot_schedules.where(date: @selected_date).order(:start_time)
-
-    @pagy, @paginated_slots = pagy(all_slots, limit: 8)
+     if result.valid?
+       @slots_result = result.result[:slots_result]
+       @q = result.result[:q]
+       @selected_date = result.result[:selected_date]
+       @pagy, @paginated_slots = pagy(:offset, @slots_result, page: params[:page], items: params[:per_page] || 8)
+     end
   end
-  
+
   def slot_update
-  @slot = current_user.slot_schedules.find(params[:id])
+    @slot = SlotSchedule.find(params[:id])
 
-  if @slot.available?
-    @slot.blocked!   
-  else
-    @slot.available! 
+    authorize @slot, :update? 
+
+    @slot.toggle_availability!
+    render json: { status: 'success' }, status: :ok
   end
-end
 end
