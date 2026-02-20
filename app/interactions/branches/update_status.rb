@@ -1,4 +1,4 @@
-class Branches::Status < ActiveInteraction::Base
+class Branches::UpdateStatus < ActiveInteraction::Base
   object :branch
   string :status
 
@@ -7,7 +7,7 @@ class Branches::Status < ActiveInteraction::Base
     return branch if branch.status == status
 
     if branch.update(status:)
-      branch 
+      branch
     else
       errors.merge!(user.errors)
     end

@@ -11,4 +11,4 @@ class Branches::Update < ActiveInteraction::Base
       end
       branch
     end
-  end
+end

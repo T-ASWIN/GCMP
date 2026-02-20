@@ -7,7 +7,7 @@ gem "propshaft"
 # Use sqlite3 as the database for Active Record
 gem "pg"
 
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -74,14 +74,16 @@ gem "tailwindcss-rails", "~> 4.4"
 
 gem "bcrypt", "~> 3.1.7"
 
-gem 'active_interaction', '~> 5.0'
+gem "active_interaction", "~> 5.0"
 gem "devise", "~> 5.0"
 
 gem "pundit", "~> 2.5"
 
-gem 'pagy'
+gem "pagy"
 
-gem 'ransack'
+gem "ransack"
 gem "good_job", "~> 4.13"
 
-gem 'whenever', require: false
+gem "whenever", require: false
+
+gem "rubocop", require: false

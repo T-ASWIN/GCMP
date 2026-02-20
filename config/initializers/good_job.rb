@@ -1,6 +1,6 @@
 # config/initializers/good_job.rb
 Rails.application.configure do
-  # This keeps a history of your jobs in the database. 
+  # This keeps a history of your jobs in the database.
   # Set to false if you want them deleted immediately after finishing.
   config.good_job.preserve_job_records = true
 

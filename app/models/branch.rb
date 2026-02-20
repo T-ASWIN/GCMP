@@ -6,5 +6,5 @@ enum :status, { active: "active", inactive: "inactive" }, default: :active
 
   validates :name, presence: true, uniqueness: true
 
-  scope :ordered, ->{order(name: :asc)}
+  scope :ordered, -> { order(name: :asc) }
 end

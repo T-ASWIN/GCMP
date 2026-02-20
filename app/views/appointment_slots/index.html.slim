@@ -3,7 +3,9 @@
   div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 mb-8"
     div class="flex items-center justify-between mb-6"
       h2.text-lg.font-semibold.text-gray-800 Admin Slot Filters
-
+       / Add this at the top of your index.html.slim
+      p class="text-red-500 font-bold" 
+      | Debug: Count is #{@paginated_slots.count} | Class is #{@paginated_slots.class}
     = search_form_for @q, url: appointment_slots_path, method: :get do |f|
       .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-6.gap-4.items-end
         div

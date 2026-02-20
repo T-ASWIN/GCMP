@@ -1,6 +1,6 @@
 class BranchesController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_branch, only: [:edit, :update, :update_status]
+    before_action :set_branch, only: [ :edit, :update, :update_status ]
 
     def index
         @branches = Branch.includes(:users).ordered
@@ -12,20 +12,20 @@ class BranchesController < ApplicationController
 
     def create
       result = Branches::Create.run(branch_attributes: branch_params.to_h)
-     
+
       if result.valid?
-        redirect_to branches_path, notice: 'Branch was successfully created.'
+        redirect_to branches_path, notice: "Branch was successfully created."
       else
         @branch = result.result
         flash.now[:alert] = result.errors.full_messages.to_sentence
         render :new, status: :unprocessable_entity
-     end
+      end
     end
 
 
     def update_status
-      result = Branches::Status.run(
-      branch: @branch, 
+      result = Branches::UpdateStatus.run(
+      branch: @branch,
       status: params[:branch][:status]
        )
 
@@ -49,7 +49,7 @@ class BranchesController < ApplicationController
      )
 
   if result.valid?
-    redirect_to branches_path, notice: 'Branch was successfully updated.'
+    redirect_to branches_path, notice: "Branch was successfully updated."
   else
     @errors = result.errors.full_messages
     render :edit, status: :unprocessable_entity

@@ -1,13 +1,13 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
 class FetchGoldPriceJob < ApplicationJob
   queue_as :default
 
   def perform
-    uri = URI('https://www.goldapi.io/api/XAU/USD')
+    uri = URI("https://www.goldapi.io/api/XAU/AED")
     request = Net::HTTP::Get.new(uri)
-    request["x-access-token"] = Rails.application.credentials.dig(:gold_api, :access_token)
+    request["x-access-token"] = ENV["GOLD_API_TOKEN"]
     request["Content-Type"] = "application/json"
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
@@ -16,19 +16,19 @@ class FetchGoldPriceJob < ApplicationJob
 
     if response.code == "200"
       data = JSON.parse(response.body)
-      
+
       purity_price = {
-        "24k" => data['price_gram_24k'],
-        "22k" => data['price_gram_22k'],
-        "20k" => data['price_gram_20k'],
-        "18k" => data['price_gram_18k']
+        "24k" => data["price_gram_24k"],
+        "22k" => data["price_gram_22k"],
+        "20k" => data["price_gram_20k"],
+        "18k" => data["price_gram_18k"]
       }
 
       purity_price.each do |purity, price|
         GoldPrice.create!(
-          timestamp: Time.at(data['timestamp']),
-          metal:     data['metal'],
-          currency:  data['currency'],
+          timestamp: Time.at(data["timestamp"]),
+          metal:     data["metal"],
+          currency:  data["currency"],
           purity:    purity,
           price:     price
         )

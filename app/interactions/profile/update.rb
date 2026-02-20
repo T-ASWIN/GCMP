@@ -11,4 +11,4 @@ class Profile::Update < ActiveInteraction::Base
 
       user
     end
-  end
+end

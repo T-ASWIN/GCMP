@@ -18,9 +18,9 @@ end
 
 puts "Generating slots"
 
-target_date = Date.parse('2026-02-17') 
-start_hour = 9  
-end_hour = 17  
+target_date = Date.parse('2026-02-17')
+start_hour = 9
+end_hour = 17
 interval = 30.minutes
 
 
@@ -29,8 +29,8 @@ end_time = target_date.to_time.change(hour: end_hour)
 
 while current_time < end_time
   slot_end = current_time + interval
-  
-  random_status = [:available, :blocked].sample 
+
+  random_status = [ :available, :blocked ].sample
 
   SlotSchedule.find_or_create_by!(
     user: user,
@@ -38,9 +38,9 @@ while current_time < end_time
     start_time: current_time.strftime("%H:%M")
   ) do |slot|
     slot.end_time = slot_end.strftime("%H:%M")
-    slot.status = [:available, :blocked].sample 
+    slot.status = [ :available, :blocked ].sample
   end
-  
+
   current_time = slot_end
 end
 

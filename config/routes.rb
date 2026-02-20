@@ -9,14 +9,14 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: "appointment_slots#index", as: :user_root
   end
-  
+
 devise_scope :user do
     unauthenticated do
       root to: "devise/sessions#new", as: :unauthenticated_root
     end
   end
 
-   resources :users, only: [:index, :new, :create, :edit, :update] do
+   resources :users, only: [ :index, :new, :create, :edit, :update ] do
     member do
       get :is_active
       patch :update_status
@@ -28,28 +28,24 @@ devise_scope :user do
       patch :update_status
     end
    end
-  
+
   devise_for :users
 
- 
 
-  resources :appointment_slots, only: [:index] do
+
+  resources :appointment_slots, only: [ :index ] do
     member do
       patch :slot_update
     end
   end
 
-  resources :branches, only: [:index]
+  resources :branches, only: [ :index ]
 
-  resource :profile, only: [:show, :update]
+  resource :profile, only: [ :show, :update ]
 
-  resources :gold_prices, only: [:index] do
-      collection do
-        post :update_goldrate 
-      end
-  end
+resources :gold_prices, only: [:index]
 
-  mount GoodJob::Engine => 'good_job'
+  mount GoodJob::Engine => "good_job"
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

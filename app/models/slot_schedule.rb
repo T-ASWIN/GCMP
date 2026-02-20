@@ -6,11 +6,11 @@ class SlotSchedule < ApplicationRecord
   validates :date, :start_time, :end_time, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "date", "end_time", "id", "start_time", "status", "updated_at", "user_id"]
+    [ "created_at", "date", "end_time", "id", "start_time", "status", "updated_at", "user_id" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["user"]
+    [ "user" ]
   end
 
   def toggle_availability!
