@@ -7,7 +7,7 @@ class Users::Status < ActiveInteraction::Base
     return user if user.status == status
 
     if user.update(status:)
-      user 
+      user
     else
       errors.merge!(user.errors)
     end

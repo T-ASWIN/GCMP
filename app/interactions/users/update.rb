@@ -11,4 +11,4 @@ class Users::Update < ActiveInteraction::Base
       end
       user
     end
-  end
+end

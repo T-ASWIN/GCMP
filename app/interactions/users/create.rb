@@ -4,10 +4,11 @@ class Users::Create < ActiveInteraction::Base
   def execute
     user = User.new(user_attributes)
 
-    if user.save
-    else
+
+    unless user.save
       errors.merge!(user.errors)
     end
+
     user
   end
 end

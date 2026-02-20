@@ -1,0 +1,40 @@
+h1.text-3xl.font-bold.mb-8 Market Prices
+
+.w-full.max-w-7xl.mx-auto
+  /-- Card Container
+  .bg-white.rounded-3xl.shadow-lg.overflow-hidden.flex.items-stretch.border.border-slate-100.w-full.min-h-[40vh] 
+    /-- Left Side: Image Section
+    .w-2/5.relative
+      img.h-full.w-full.object-cover src="https://cashyourgold.net.au/wp-content/uploads/2025/09/CYG.jpg" alt="Gold Bars"
+    
+    /-- Right Side: Content Section
+    .w-3/5.p-8.relative.flex.flex-col
+      .absolute.top-6.right-6.px-3.py-1.rounded-full.text-xs.font-bold style="background-color: #FFF9E6; color: #D4AF37; border: 1px solid #F3E5AB;"
+        | AED
+
+      - if @latest_price.any?
+        div
+          h2.text-2xl.font-extrabold.text-slate-900.mb-1 Gold Market Rates
+          p.text-sm.font-medium.text-slate-400.mb-6 Live Market Price per Gram
+
+          /-- Grid for different purities
+          .grid.grid-cols-2.gap-6.mb-8
+            - @latest_price.each do |gp|
+              .flex.flex-col.border-l-4.pl-4 style="border-color: #FBBF24;"
+                span.text-xs.font-black.text-slate-400.uppercase = "#{gp.purity} Gold"
+                .flex.items-baseline.gap-1
+                  span.text-2xl.font-black.text-slate-900
+                    = number_to_currency(gp.price, unit: "AED ", precision: 2)
+                  span.text-xs.font-bold.text-slate-500 | /g
+
+        /-- Footer Section
+        .mt-auto.flex.items-end.justify-between
+          div
+            p class="text-[10px] font-bold uppercase tracking-tighter text-slate-400 mb-1" LAST UPDATED
+            p.text-sm.font-bold.text-slate-700
+              /-- Take timestamp from the first record in the collection
+              = @latest_price.first.timestamp.in_time_zone.strftime("%B %d, %I:%M %p")
+          
+      - else
+        .flex.flex-col.items-center.justify-center.h-full.text-center
+          p.text-slate-400 No data available.

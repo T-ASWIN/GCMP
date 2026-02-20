@@ -6,19 +6,22 @@
       .flex.gap-2
         = link_to 'Add User', new_user_path, class: 'bg-black text-white px-8 py-2 rounded-full font-bold shadow-md hover:bg-slate-800 transition-colors'
 
-    /-- Table Container
-    .mb-6.overflow-x-auto.shadow-sm.rounded-xl.border style="border-color:#E5E7EB; background-color:white;"
-      table.min-w-full.border-collapse
-        thead style="background-color:#c9e5eb"
-          tr.border-b style="border-color:#E5E7EB"
-            th.px-8.py-4.text-left.text-sm.font-semibold style="color:#374151;" User Name
-            th.px-8.py-4.text-left.text-sm.font-semibold style="color:#374151;" Email
-            th.px-8.py-4.text-left.text-sm.font-semibold style="color:#374151;" Status
-            th.px-8.py-4.text-right.text-sm.font-semibold style="color:#374151;" Actions
+    /-- Table Container updated to match image shadows and rounding
+    .mb-6.overflow-x-auto.shadow-xl.rounded-xl.border-none
+      table.min-w-full.border-collapse.bg-white
+        /-- Header background updated to the muted blue-gray from image
+        thead style="background-color: #A9B5D1;"
+          tr
+            /-- Typography updated to Uppercase and White to match image
+            th.px-8.py-5.text-left.text-xs.font-bold.tracking-widest.text-white.uppercase User Name
+            th.px-8.py-5.text-left.text-xs.font-bold.tracking-widest.text-white.uppercase Email
+            th.px-8.py-5.text-left.text-xs.font-bold.tracking-widest.text-white.uppercase Status
+            th.px-8.py-5.text-right.text-xs.font-bold.tracking-widest.text-white.uppercase Actions
         
-        tbody style="background-color:#c9e5eb"
-          - @users.each do |user|
-            tr.transition-all.duration-200 class="hover:bg-white" style="border-bottom: 1px solid #E5E7EB"
+        tbody
+          - @users.each_with_index do |user, index|
+            /-- The key is placing the 'group' class and using 'hover' correctly
+            tr class=(index.odd? ? "bg-slate-50/50" : "bg-white") class="group transition-colors hover:bg-blue-50/60 border-b last:border-0" style="border-color: #F3F4F6;"
               td.px-8.py-6.text-sm.font-bold.text-slate-900
                 = user.name
               
@@ -26,17 +29,14 @@
                 = user.email
               
               td.px-8.py-6
-                /-- Form hits the 'update_status' action in UsersController
                 = form_with model: user, url: update_status_user_path(user), method: :patch, local: true do |f|
                   label.relative.inline-flex.items-center.cursor-pointer
-                    /! Values 'active'/'inactive' sent to params[:user][:status]
                     = f.check_box :status, 
                       { checked: user.active?, 
                         class: "sr-only peer", 
                         onchange: "this.form.submit()" }, 
                       "active", "inactive"
                     
-                    /-- Visual Switch (Blue/Gray)
                     div class="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"
                     
                     span.ms-3.text-xs.font-bold.text-slate-600 class="peer-checked:text-blue-600"
@@ -45,8 +45,7 @@
               td.px-8.py-6.text-sm.text-right
                 .inline-flex.gap-4
                   = link_to 'Edit', edit_user_path(user), class: 'text-slate-400 hover:text-black font-medium transition-colors'
-
-/-- Error Display for UserStatus.run failures
+/-- Error Display
 - if @errors.present?
   .fixed.bottom-4.right-4.bg-red-50.border-l-4.border-red-500.p-4.shadow-lg
     .flex
